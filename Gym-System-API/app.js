@@ -2,7 +2,7 @@
 
 const express = require('express');
 const app = express();
-const bodyParse = require('body-parser');
+const bodyParser = require('body-parser');
 const mongose = require('mongoose');
 const port = process.env.PORT || 4201;
 
@@ -17,6 +17,7 @@ mongose.connect('mongodb://127.0.0.1:27017/system-gym', (err, res) => {
 })
 
 /* MANDAMOS A LLAMAR A LAS RUTAS */
+const adminRoute = require('./routes/admin');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: '50mb', extended: true}))
@@ -28,5 +29,7 @@ app.use((req,res,next)=>{
     res.header('Allow','GET, PUT, POST, DELETE, OPTIONS');
     next();
 });
+
+app.use('/api', adminRoute)
 
 module.exports = app;
